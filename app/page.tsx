@@ -1,3 +1,5 @@
+'use client'
+
 import dynamic from 'next/dynamic'
 import AdBanner from '@/components/AdBanner'
 import FAQ from '@/components/FAQ'
@@ -5,7 +7,7 @@ import FAQ from '@/components/FAQ'
 const Converter = dynamic(() => import('@/components/Converter'), {
   ssr: false,
   loading: () => (
-    <div className="flex h-48 items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50">
+    <div className="flex h-48 items-center justify-center rounded-2xl border-2 border-dashed border-gray-200">
       <p className="text-sm text-gray-400">Loading converter…</p>
     </div>
   ),
