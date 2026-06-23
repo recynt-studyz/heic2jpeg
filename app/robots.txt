@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://heic2jpeg.app/sitemap.xml
