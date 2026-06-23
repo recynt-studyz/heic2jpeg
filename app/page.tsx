@@ -15,7 +15,16 @@ const Converter = dynamic(() => import('@/components/Converter'), {
 
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-6 space-y-6">
+    <>
+      <header className="border-b border-gray-100">
+        <div className="mx-auto w-full max-w-2xl px-4 py-3">
+          <span className="font-mono text-sm font-semibold tracking-tight text-gray-900">
+            heic2jpeg
+          </span>
+        </div>
+      </header>
+
+      <main className="mx-auto w-full max-w-2xl px-4 py-6 space-y-6">
       {/* Hero */}
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">
@@ -25,10 +34,6 @@ export default function Home() {
           Convert iPhone photos instantly in your browser.{' '}
           <span className="font-medium text-gray-700">No upload required.</span>
         </p>
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-3 py-1 text-sm font-medium text-green-700">
-          <span>🔒</span>
-          <span>Files never leave your device</span>
-        </div>
       </div>
 
       {/* Converter */}
@@ -40,7 +45,7 @@ export default function Home() {
       {/* Trust signals */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { label: 'No Upload', icon: '🚫' },
+          { label: 'No Upload', icon: '🛡️' },
           { label: 'Instant', icon: '⚡' },
           { label: 'Unlimited', icon: '∞' },
           { label: 'Free', icon: '✓' },
@@ -66,5 +71,6 @@ export default function Home() {
         <p>heic2jpeg.app — Free browser-based HEIC converter</p>
       </footer>
     </main>
+    </>
   )
 }

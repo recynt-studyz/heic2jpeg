@@ -166,8 +166,8 @@ export default function Converter() {
         onClick={() => inputRef.current?.click()}
         className={`relative flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-16 text-center transition-all ${
           dragging
-            ? 'border-green-500 bg-green-100'
-            : 'border-green-200 bg-green-50 hover:border-green-400 hover:bg-green-100'
+            ? 'border-blue-400 bg-blue-50'
+            : 'border-gray-300 bg-white hover:border-blue-400 hover:bg-blue-50'
         }`}
       >
         <input
@@ -201,6 +201,10 @@ export default function Converter() {
           <p className="mt-1 text-sm text-gray-500">
             or <span className="text-blue-600 font-medium">browse files</span> — .heic and .heif supported
           </p>
+        </div>
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
+          <span>🔒</span>
+          <span>Files never leave your device</span>
         </div>
       </div>
 
