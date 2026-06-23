@@ -28,11 +28,11 @@ export default function AdBanner({ slot, className = '' }: AdBannerProps) {
   }, [])
 
   return (
-    <div className={`overflow-hidden ${className}`}>
+    <div className={`min-h-0 overflow-hidden ${className}`}>
       <ins
         ref={ref}
         className="adsbygoogle block"
-        style={{ display: 'block' }}
+        style={{ display: 'block', minHeight: 0 }}
         data-ad-client="ca-pub-XXXXXXXXXX"
         data-ad-slot={slot}
         data-ad-format="auto"

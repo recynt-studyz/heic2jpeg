@@ -166,8 +166,8 @@ export default function Converter() {
         onClick={() => inputRef.current?.click()}
         className={`relative flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-16 text-center transition-all ${
           dragging
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-gray-300 bg-gray-50 hover:border-blue-400 hover:bg-blue-50/50'
+            ? 'border-green-500 bg-green-100'
+            : 'border-green-200 bg-green-50 hover:border-green-400 hover:bg-green-100'
         }`}
       >
         <input

@@ -15,13 +15,13 @@ const Converter = dynamic(() => import('@/components/Converter'), {
 
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-12 space-y-10">
+    <main className="mx-auto w-full max-w-2xl px-4 py-6 space-y-6">
       {/* Hero */}
-      <div className="text-center space-y-3">
-        <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
           HEIC to JPEG Converter
         </h1>
-        <p className="text-lg text-gray-500">
+        <p className="text-base text-gray-500">
           Convert iPhone photos instantly in your browser.{' '}
           <span className="font-medium text-gray-700">No upload required.</span>
         </p>
@@ -30,9 +30,6 @@ export default function Home() {
           <span>Files never leave your device</span>
         </div>
       </div>
-
-      {/* Ad — above converter */}
-      <AdBanner slot="1111111111" />
 
       {/* Converter */}
       <Converter />
