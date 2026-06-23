@@ -18,8 +18,8 @@ export default function Home() {
     <>
       <header className="border-b border-gray-100">
         <div className="mx-auto w-full max-w-2xl px-4 py-3">
-          <span className="font-mono text-sm font-semibold tracking-tight text-gray-900">
-            heic2jpeg
+          <span className="font-mono text-lg font-semibold tracking-tight text-gray-900 sm:text-xl">
+            heic2jpeg.app
           </span>
         </div>
       </header>
