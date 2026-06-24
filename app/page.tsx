@@ -31,6 +31,8 @@ export default function Home() {
       >
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/15" />
+        {/* Bottom fade to white */}
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
 
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-[680px] space-y-5">
