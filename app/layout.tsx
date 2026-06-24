@@ -33,6 +33,9 @@ export const metadata: Metadata = {
       'Convert HEIC photos to JPEG instantly in your browser. No upload, no signup, completely free. Your photos never leave your device.',
   },
   metadataBase: new URL('https://heic2jpeg.app'),
+  other: {
+    'google-adsense-account': 'ca-pub-8792838105001561',
+  },
 }
 
 export default function RootLayout({
