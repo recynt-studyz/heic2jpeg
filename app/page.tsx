@@ -84,8 +84,13 @@ export default function Home() {
         <AdBanner slot="3333333333" />
 
         {/* Footer */}
-        <footer className="text-center text-xs text-gray-400 pb-4">
+        <footer className="text-center text-xs text-gray-400 pb-4 space-y-1">
           <p>heic2jpeg.app — Free browser-based HEIC converter</p>
+          <p>
+            <a href="/privacy" className="hover:text-gray-600 hover:underline transition-colors">
+              Privacy Policy
+            </a>
+          </p>
         </footer>
       </main>
     </>
