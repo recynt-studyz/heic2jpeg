@@ -26,11 +26,20 @@ const FORMAT_EXT: Record<OutputFormat, string> = {
   'image/webp': 'webp',
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let heic2anyModule: any = null
+const getHeic2Any = async () => {
+  if (!heic2anyModule) {
+    heic2anyModule = (await import('heic2any')).default
+  }
+  return heic2anyModule
+}
+
 async function convertFile(
   file: File,
   format: OutputFormat
 ): Promise<{ url: string; name: string }> {
-  const heic2any = (await import('heic2any')).default
+  const heic2any = await getHeic2Any()
   const result = await heic2any({ blob: file, toType: format, quality: 0.92 })
   const blob = Array.isArray(result) ? result[0] : result
   const url = URL.createObjectURL(blob)
@@ -55,9 +64,12 @@ export default function Converter() {
 
   const processFiles = useCallback(
     async (incoming: File[]) => {
-      const valid = incoming.filter((f) =>
-        /\.(heic|heif)$/i.test(f.name)
-      )
+      const valid = incoming.filter((f) => {
+        const nameMatch = /\.(heic|heif)$/i.test(f.name)
+        const typeMatch = /heic|heif/i.test(f.type)
+        const typeEmpty = f.type === ''
+        return nameMatch || typeMatch || typeEmpty
+      })
       if (!valid.length) return
 
       if (valid.length > 50) {
@@ -93,13 +105,17 @@ export default function Converter() {
             )
           )
         } catch (err) {
+          console.error('heic2any error:', err)
           const message =
-            err instanceof Error ? err.message : 'Conversion failed'
+            err instanceof Error ? err.message : String(err)
           setFiles((prev) =>
             prev.map((f) =>
               f.id === item.id ? { ...f, status: 'error', error: message } : f
             )
           )
+        }
+        if (i < valid.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 100))
         }
       }
     },
