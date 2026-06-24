@@ -109,17 +109,6 @@ export default function PrivacyPage() {
           </p>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-900">Contact</h2>
-          <p className="text-gray-600 leading-relaxed">
-            Questions about this policy? Reach out at{' '}
-            <a href="mailto:privacy@heic2jpeg.app" className="text-blue-600 hover:underline">
-              privacy@heic2jpeg.app
-            </a>
-            .
-          </p>
-        </section>
-
         <div className="pt-4 border-t border-gray-100">
           <Link href="/" className="text-sm text-blue-600 hover:underline">
             ← Back to converter

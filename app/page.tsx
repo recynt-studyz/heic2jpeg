@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import AdBanner from '@/components/AdBanner'
 import FAQ from '@/components/FAQ'
 import Footer from '@/components/Footer'
+import FAQSchema from '@/components/FAQSchema'
 
 const Converter = dynamic(() => import('@/components/Converter'), {
   ssr: false,
@@ -85,6 +86,7 @@ export default function Home() {
         <AdBanner slot="3333333333" />
 
         <Footer />
+        <FAQSchema />
       </main>
     </>
   )
