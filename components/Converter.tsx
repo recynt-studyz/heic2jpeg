@@ -27,21 +27,59 @@ const FORMAT_EXT: Record<OutputFormat, string> = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let heic2anyModule: any = null
-const getHeic2Any = async () => {
-  if (!heic2anyModule) {
-    heic2anyModule = (await import('heic2any')).default
+let libheifModule: any = null
+const getLibheif = async () => {
+  if (!libheifModule) {
+    const mod = await import('libheif-js/wasm-bundle')
+    libheifModule = mod.default ?? mod
   }
-  return heic2anyModule
+  return libheifModule
 }
 
 async function convertFile(
   file: File,
   format: OutputFormat
 ): Promise<{ url: string; name: string }> {
-  const heic2any = await getHeic2Any()
-  const result = await heic2any({ blob: file, toType: format, quality: 0.92 })
-  const blob = Array.isArray(result) ? result[0] : result
+  const libheif = await getLibheif()
+
+  const buffer = await file.arrayBuffer()
+  const decoder = new libheif.HeifDecoder()
+  const images = decoder.decode(new Uint8Array(buffer))
+
+  if (!images || images.length === 0) {
+    throw new Error('No images found in HEIC file')
+  }
+
+  const image = images[0]
+  const width = image.get_width()
+  const height = image.get_height()
+
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')!
+  const imageData = ctx.createImageData(width, height)
+
+  await new Promise<void>((resolve, reject) => {
+    image.display(imageData, (displayData: ImageData | null) => {
+      if (!displayData) return reject(new Error('HEIF display error'))
+      resolve()
+    })
+  })
+
+  ctx.putImageData(imageData, 0, 0)
+
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (b) => {
+        if (!b) return reject(new Error('Canvas export failed'))
+        resolve(b)
+      },
+      format,
+      format === 'image/png' ? undefined : 0.92
+    )
+  })
+
   const url = URL.createObjectURL(blob)
   const baseName = file.name.replace(/\.(heic|heif)$/i, '')
   const name = `${baseName}.${FORMAT_EXT[format]}`
