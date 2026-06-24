@@ -43,6 +43,7 @@ export default function Converter() {
   const [files, setFiles] = useState<FileItem[]>([])
   const [format, setFormat] = useState<OutputFormat>('image/jpeg')
   const [dragging, setDragging] = useState(false)
+  const [batchWarning, setBatchWarning] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const objectUrlsRef = useRef<string[]>([])
 
@@ -58,6 +59,13 @@ export default function Converter() {
         /\.(heic|heif)$/i.test(f.name)
       )
       if (!valid.length) return
+
+      if (valid.length > 50) {
+        setBatchWarning(true)
+        valid.splice(50)
+      } else {
+        setBatchWarning(false)
+      }
 
       const newItems: FileItem[] = valid.map((f) => ({
         id: `${f.name}-${f.size}-${Date.now()}-${Math.random()}`,
@@ -206,6 +214,11 @@ export default function Converter() {
           <span>🔒</span>
           <span>Files never leave your device</span>
         </div>
+        {batchWarning && (
+          <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 max-w-xs">
+            Please convert up to 50 files at a time. Drop the rest after these finish.
+          </p>
+        )}
       </div>
 
       {/* File list */}
