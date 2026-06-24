@@ -1,4 +1,4 @@
-User-Agent: *
+User-agent: *
 Allow: /
 
 Sitemap: https://heic2jpeg.app/sitemap.xml
