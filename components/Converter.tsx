@@ -91,6 +91,7 @@ export default function Converter() {
   const [format, setFormat] = useState<OutputFormat>('image/jpeg')
   const [dragging, setDragging] = useState(false)
   const [batchWarning, setBatchWarning] = useState(false)
+  const [noValidFiles, setNoValidFiles] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const objectUrlsRef = useRef<string[]>([])
 
@@ -102,13 +103,24 @@ export default function Converter() {
 
   const processFiles = useCallback(
     async (incoming: File[]) => {
+      // Reject files that are definitively a known non-HEIC format.
+      // Everything else gets attempted — iOS can deliver HEIC with unexpected
+      // MIME types (application/octet-stream, empty, image/heic, etc.)
+      const KNOWN_NON_HEIC = new Set([
+        'image/jpeg', 'image/jpg', 'image/png', 'image/gif',
+        'image/webp', 'image/bmp', 'image/svg+xml', 'image/tiff', 'image/avif',
+      ])
       const valid = incoming.filter((f) => {
-        const nameMatch = /\.(heic|heif)$/i.test(f.name)
-        const typeMatch = /heic|heif/i.test(f.type)
-        const typeEmpty = f.type === ''
-        return nameMatch || typeMatch || typeEmpty
+        const nameIsHeic = /\.(heic|heif)$/i.test(f.name)
+        if (nameIsHeic) return true
+        if (KNOWN_NON_HEIC.has(f.type)) return false
+        return true
       })
-      if (!valid.length) return
+      if (!valid.length) {
+        setNoValidFiles(true)
+        return
+      }
+      setNoValidFiles(false)
 
       if (valid.length > 50) {
         setBatchWarning(true)
@@ -235,7 +247,7 @@ export default function Converter() {
         <input
           ref={inputRef}
           type="file"
-          accept=".heic,.heif"
+          accept="image/*,.heic,.heif"
           multiple
           onChange={handleInputChange}
           className="sr-only"
@@ -271,6 +283,11 @@ export default function Converter() {
         {batchWarning && (
           <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 max-w-xs">
             Please convert up to 50 files at a time. Drop the rest after these finish.
+          </p>
+        )}
+        {noValidFiles && (
+          <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 max-w-xs">
+            No HEIC files detected. Please select .heic or .heif files.
           </p>
         )}
       </div>
