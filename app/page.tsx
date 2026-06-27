@@ -28,13 +28,13 @@ export default function Home() {
 
       {/* Hero — full-width with background image */}
       <section
-        className="relative w-full bg-cover bg-center py-10 px-4"
+        className="relative w-full bg-cover bg-center pt-8 pb-0 px-4"
         style={{ backgroundImage: "url('/hero-bg.jpg')" }}
       >
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/15" />
         {/* Bottom fade to white */}
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
+        <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-b from-transparent to-white" />
 
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-[680px] space-y-5">
@@ -57,8 +57,8 @@ export default function Home() {
       </section>
 
       {/* Below-fold content — plain white */}
-      <main className="mx-auto w-full max-w-2xl px-4 py-6 space-y-6">
-        {/* Ad — below converter */}
+      <main className="mx-auto w-full max-w-2xl px-4 pt-2 pb-6 space-y-5">
+        {/* Ad — above the fold for viewability */}
         <AdBanner slot="2222222222" />
 
         {/* Trust signals */}
@@ -78,6 +78,7 @@ export default function Home() {
             </div>
           ))}
         </div>
+
 
         {/* FAQ */}
         <FAQ />

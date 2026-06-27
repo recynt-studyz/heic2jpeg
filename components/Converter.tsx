@@ -43,11 +43,22 @@ async function convertFile(
   const libheif = await getLibheif()
 
   const buffer = await file.arrayBuffer()
+  const header = new Uint8Array(buffer, 0, 12)
+
+  // Detect if iOS silently transcoded the HEIC to JPEG before delivery
+  if (header[0] === 0xff && header[1] === 0xd8) {
+    throw new Error('iPhone converted this to JPEG. In Photos, tap Share → Save to Files, then select the file from Files here.')
+  }
+  // Detect PNG
+  if (header[0] === 0x89 && header[1] === 0x50) {
+    throw new Error('This file is a PNG, not a HEIC file.')
+  }
+
   const decoder = new libheif.HeifDecoder()
   const images = decoder.decode(new Uint8Array(buffer))
 
   if (!images || images.length === 0) {
-    throw new Error('No images found in HEIC file')
+    throw new Error('Could not read HEIC file. The file may be corrupted or an unsupported variant.')
   }
 
   const image = images[0]
@@ -103,24 +114,15 @@ export default function Converter() {
 
   const processFiles = useCallback(
     async (incoming: File[]) => {
-      // Reject files that are definitively a known non-HEIC format.
-      // Everything else gets attempted — iOS can deliver HEIC with unexpected
-      // MIME types (application/octet-stream, empty, image/heic, etc.)
-      const KNOWN_NON_HEIC = new Set([
-        'image/jpeg', 'image/jpg', 'image/png', 'image/gif',
-        'image/webp', 'image/bmp', 'image/svg+xml', 'image/tiff', 'image/avif',
-      ])
-      const valid = incoming.filter((f) => {
-        const nameIsHeic = /\.(heic|heif)$/i.test(f.name)
-        if (nameIsHeic) return true
-        if (KNOWN_NON_HEIC.has(f.type)) return false
-        return true
-      })
-      if (!valid.length) {
+      // No content-based filtering — let libheif decide what's valid.
+      // Any pre-filtering risks rejecting HEIC files that iOS delivers with
+      // unexpected MIME types. If a file isn't HEIC, libheif will error.
+      if (!incoming.length) {
         setNoValidFiles(true)
         return
       }
       setNoValidFiles(false)
+      const valid = incoming
 
       if (valid.length > 50) {
         setBatchWarning(true)
@@ -247,7 +249,7 @@ export default function Converter() {
         <input
           ref={inputRef}
           type="file"
-          accept="image/*,.heic,.heif"
+          accept=".heic,.heif"
           multiple
           onChange={handleInputChange}
           className="sr-only"
@@ -270,10 +272,18 @@ export default function Converter() {
         </div>
         <div>
           <p className="text-base font-semibold text-gray-800">
-            {dragging ? 'Drop your HEIC files here' : 'Drop HEIC files here'}
+            <span className="hidden sm:inline">
+              {dragging ? 'Drop your HEIC files here' : 'Drop HEIC files here'}
+            </span>
+            <span className="sm:hidden">Tap to select HEIC files</span>
           </p>
           <p className="mt-1 text-sm text-gray-500">
-            or <span className="text-blue-600 font-medium">browse files</span> — .heic and .heif supported
+            <span className="hidden sm:inline">or </span>
+            <span className="text-blue-600 font-medium">browse files</span>
+            <span className="hidden sm:inline"> — .heic and .heif supported</span>
+          </p>
+          <p className="mt-1 text-xs text-gray-400 sm:hidden">
+            In Photos, tap Share → Save to Files first
           </p>
         </div>
         <div className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
