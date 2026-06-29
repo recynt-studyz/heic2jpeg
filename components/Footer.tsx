@@ -9,6 +9,7 @@ const handleContact = () => {
 export default function Footer() {
   return (
     <footer className="text-center text-xs text-gray-400 pb-4">
+      <p className="pb-2">Free online tool to convert iPhone HEIC photos to JPEG, PNG or WebP. No upload, no signup, no limits.</p>
       <p className="flex flex-wrap items-center justify-center gap-x-2">
         <span>heic2jpeg.app</span>
         <span>·</span>

@@ -44,8 +44,8 @@ export default function Home() {
               HEIC to JPEG Converter
             </h1>
             <p className="text-base text-white/80">
-              Convert iPhone photos instantly in your browser.{' '}
-              <span className="font-medium text-white">No upload required.</span>
+              Convert iPhone photos from HEIC to JPG, PNG, or WebP — free, instant,{' '}
+              <span className="font-medium text-white">no upload required.</span>
             </p>
           </div>
 
