@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://heic2jpeg.app'),
   other: {
-    'google-adsense-account': 'ca-pub-8792838105001561',
+    'google-adsense-account': 'ca-pub-5035661017594256',
   },
 }
 
@@ -49,7 +49,7 @@ export default function RootLayout({
         {children}
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8792838105001561"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5035661017594256"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
