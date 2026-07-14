@@ -45,6 +45,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-MMFKHTKST4"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-MMFKHTKST4');
+          `}
+        </Script>
+      </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased">
         {children}
         <Script
